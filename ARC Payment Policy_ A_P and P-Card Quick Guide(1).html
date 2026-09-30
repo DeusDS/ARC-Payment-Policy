@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ARC Payment Policy: A/P and P-Card Quick Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#F7B51E; --gold-soft:#FFF3D1;
+  --ink:#1E2733; --muted:#5B6572; --line:#E2E5E9; --paper:#FFFFFF; --panel:#F6F7F9;
+  --pcard:#23918C; --pcard-soft:#E1F3F2;
+  --nopo:#4468B8; --nopo-soft:#E5ECF9;
+  --po:#7F9430; --po-soft:#EEF3DC;
+  --stop:#D9434A; --stop-soft:#FCE7E8;
+  --body:"Barlow", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --cond:"Barlow Condensed", "Arial Narrow", "Segoe UI", sans-serif;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light dark;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --gold:#F7B51E; --gold-soft:#3A2F12;
+    --ink:#ECEFF3; --muted:#A3ABB6; --line:#2E3742; --paper:#141A21; --panel:#1B232C;
+    --pcard:#47BDB7; --pcard-soft:#15302F;
+    --nopo:#7C9CE6; --nopo-soft:#1A2640;
+    --po:#AFC45A; --po-soft:#252D14;
+    --stop:#F0676D; --stop-soft:#3A1A1C;
+  }
+}
+:root[data-theme="dark"]{
+  --gold:#F7B51E; --gold-soft:#3A2F12;
+  --ink:#ECEFF3; --muted:#A3ABB6; --line:#2E3742; --paper:#141A21; --panel:#1B232C;
+  --pcard:#47BDB7; --pcard-soft:#15302F;
+  --nopo:#7C9CE6; --nopo-soft:#1A2640;
+  --po:#AFC45A; --po-soft:#252D14;
+  --stop:#F0676D; --stop-soft:#3A1A1C;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
+img,svg{max-width:100%}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* Nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--gold);color:#1E2733}
+.nav-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:10px 20px;overflow-x:auto;white-space:nowrap}
+.nav b{font-family:var(--cond);font-size:20px;letter-spacing:.02em}
+.nav a{text-decoration:none;font-weight:600;font-size:15px;padding:4px 2px;border-bottom:2px solid transparent}
+.nav a:hover{border-bottom-color:#1E2733}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+section{padding:56px 0 8px}
+h1,h2,h3{font-family:var(--cond);line-height:1.1;margin:0}
+h1{font-size:clamp(40px,7vw,72px);font-weight:700;letter-spacing:-.01em}
+h2{font-size:clamp(30px,4vw,40px);font-weight:700;margin-bottom:6px}
+h3{font-size:22px;font-weight:600}
+.lede{color:var(--muted);max-width:68ch;margin:6px 0 24px}
+p{max-width:72ch}
+
+/* Hero */
+.hero{padding:40px 0 24px;position:relative}
+.bars{display:flex;gap:6px;height:56px;align-items:flex-end;margin-bottom:22px}
+.bars i{display:block;width:14px;border-radius:2px;opacity:.85}
+.hero p.sub{font-size:19px;max-width:62ch;color:var(--muted);margin:14px 0 0}
+.hero-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:36px;align-items:start;margin-top:30px}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr}}
+.summary{border-left:6px solid var(--gold);padding:4px 0 4px 20px}
+.summary h3{margin-bottom:10px}
+.summary ul{margin:0;padding-left:20px}
+.summary li{margin:6px 0}
+
+/* Approval finder */
+.finder{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px}
+.finder h3{margin-bottom:4px}
+.finder .hint{color:var(--muted);font-size:15px;margin:0 0 16px}
+.field{margin-bottom:14px}
+.field label{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg button{font:inherit;font-size:15px;font-weight:600;border:2px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 12px;border-radius:8px;cursor:pointer}
+.seg button[aria-pressed="true"][data-m="pcard"]{border-color:var(--pcard);background:var(--pcard-soft)}
+.seg button[aria-pressed="true"][data-m="nopo"]{border-color:var(--nopo);background:var(--nopo-soft)}
+.seg button[aria-pressed="true"][data-m="po"]{border-color:var(--po);background:var(--po-soft)}
+.amount{display:flex;align-items:center;border:2px solid var(--line);border-radius:8px;background:var(--paper);max-width:260px}
+.amount span{padding:0 10px;font-weight:700;color:var(--muted)}
+.amount input{font:inherit;font-size:20px;font-weight:600;border:0;background:transparent;color:var(--ink);padding:8px 10px 8px 0;width:100%}
+.amount input:focus{outline:none}
+.amount:focus-within{border-color:var(--gold)}
+.check{display:flex;gap:8px;align-items:flex-start;font-size:15px;margin-top:8px}
+.check input{margin-top:4px;accent-color:var(--gold)}
+.chain{list-style:none;margin:18px 0 0;padding:0;counter-reset:s}
+.chain li{position:relative;padding:8px 12px 8px 44px;margin-bottom:6px;background:var(--paper);border:1px solid var(--line);border-radius:8px;font-size:15px}
+.chain li::before{counter-increment:s;content:counter(s);position:absolute;left:10px;top:8px;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--paper);font-weight:700;font-size:13px;display:grid;place-items:center}
+.chain li b{display:block;font-size:16px}
+.chain li.added{border-color:var(--gold);background:var(--gold-soft)}
+.alerts{margin-top:12px;display:grid;gap:8px}
+.alert{font-size:14.5px;padding:10px 12px;border-radius:8px;border-left:4px solid var(--gold);background:var(--gold-soft)}
+.alert.stop{border-left-color:var(--stop);background:var(--stop-soft)}
+
+/* Threshold scale */
+.scale{position:relative;margin:28px 0 8px;padding-top:4px}
+.scale-track{display:grid;grid-template-columns:1fr 1fr 2.4fr;height:54px;border-radius:10px;overflow:hidden;border:1px solid var(--line)}
+.scale-track div{display:flex;align-items:center;justify-content:center;font-family:var(--cond);font-weight:600;font-size:18px;text-align:center;padding:0 6px}
+.t1{background:var(--pcard-soft)} .t2{background:var(--nopo-soft)} .t3{background:var(--po-soft)}
+.ticks{display:grid;grid-template-columns:1fr 1fr 2.4fr;margin-top:6px;font-weight:700;font-size:15px}
+.ticks span:last-child{display:flex;justify-content:space-between}
+.markers{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin-top:26px}
+.marker{border-top:4px solid var(--gold);padding-top:10px}
+.marker .amt{font-family:var(--cond);font-size:34px;font-weight:700;line-height:1}
+.marker ul{margin:8px 0 0;padding-left:18px;font-size:15px}
+.marker li{margin:4px 0}
+
+/* Tables */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;margin-top:10px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:15.5px}
+th,td{padding:11px 14px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top}
+thead th{background:var(--panel);font-family:var(--cond);font-size:18px;font-weight:600}
+tbody tr:last-child td{border-bottom:0}
+td.c,th.c{text-align:center}
+.pill{display:inline-block;font-weight:700;font-size:13.5px;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.yes{background:var(--ink);color:var(--paper)}
+.cond{background:var(--gold-soft);color:var(--ink);border:1px solid var(--gold)}
+.no{color:var(--muted)}
+.opt{background:var(--panel);border:1px dashed var(--muted);color:var(--muted)}
+th.pc{border-bottom:4px solid var(--pcard)} th.np{border-bottom:4px solid var(--nopo)} th.wp{border-bottom:4px solid var(--po)}
+
+/* Flowcharts */
+.flow{display:flex;flex-direction:column;align-items:center;gap:0;margin-top:16px}
+.node{border:2px solid var(--ink);border-radius:10px;padding:12px 16px;background:var(--paper);text-align:center;max-width:420px;font-weight:600}
+.node small{display:block;font-weight:400;color:var(--muted);font-size:14px;margin-top:2px}
+.q{border-style:dashed;background:var(--panel)}
+.end{border-width:3px}
+.end.pc{border-color:var(--pcard);background:var(--pcard-soft)}
+.end.np{border-color:var(--nopo);background:var(--nopo-soft)}
+.end.wp{border-color:var(--po);background:var(--po-soft)}
+.end.st{border-color:var(--stop);background:var(--stop-soft)}
+.down{width:2px;height:26px;background:var(--ink);position:relative}
+.down::after{content:"";position:absolute;bottom:-1px;left:-5px;border:6px solid transparent;border-top:8px solid var(--ink);border-bottom:0}
+.lbl{font-size:13px;font-weight:700;color:var(--muted);margin:2px 0}
+.branch{display:grid;grid-template-columns:1fr 1fr;gap:18px;width:100%;max-width:880px;position:relative;padding-top:18px}
+.branch::before{content:"";position:absolute;top:0;left:25%;right:25%;height:2px;background:var(--ink)}
+.branch>div{display:flex;flex-direction:column;align-items:center;position:relative}
+.branch>div::before{content:"";width:2px;height:18px;background:var(--ink);position:absolute;top:-18px}
+@media (max-width:640px){
+  .branch{grid-template-columns:1fr;padding-top:0}
+  .branch::before,.branch>div::before{display:none}
+  .branch>div{border-left:3px solid var(--line);padding-left:10px;margin-top:10px}
+}
+
+/* Tabs for approval workflows */
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.tabs button{font:inherit;font-weight:600;border:0;border-bottom:4px solid transparent;background:none;color:var(--muted);padding:8px 12px;cursor:pointer;font-size:16px}
+.tabs button[aria-selected="true"]{color:var(--ink)}
+.tabs button[data-t="pcard"][aria-selected="true"]{border-color:var(--pcard)}
+.tabs button[data-t="nopo"][aria-selected="true"]{border-color:var(--nopo)}
+.tabs button[data-t="po"][aria-selected="true"]{border-color:var(--po)}
+.pipe{display:flex;align-items:stretch;gap:0;margin-top:18px;overflow-x:auto;padding-bottom:8px}
+.stage{flex:1 0 170px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:12px 14px;position:relative}
+.stage .who{font-family:var(--cond);font-size:19px;font-weight:700;line-height:1.1}
+.stage .when{display:inline-block;margin:6px 0;font-size:13px;font-weight:700;padding:2px 8px;border-radius:99px;background:var(--ink);color:var(--paper)}
+.stage .when.c{background:var(--gold);color:#1E2733}
+.stage p{font-size:14.5px;margin:0;color:var(--muted)}
+.arrow{flex:0 0 22px;display:grid;place-items:center;color:var(--muted);font-weight:700}
+.panel-note{font-size:14.5px;color:var(--muted);margin-top:8px}
+
+/* P-card */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:22px;margin-top:10px}
+.box{border:1px solid var(--line);border-radius:12px;padding:18px}
+.box h3{margin-bottom:8px}
+.box ul{margin:0;padding-left:18px;font-size:15.5px}
+.box li{margin:5px 0}
+.no-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;margin-top:10px}
+.no-list div{background:var(--stop-soft);border:1px solid var(--stop);border-radius:8px;padding:10px 12px;font-weight:600;font-size:15px}
+.no-list div::before{content:"✕ ";color:var(--stop)}
+.builder{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end;margin-top:10px}
+.builder label{font-size:14px;font-weight:600;display:flex;flex-direction:column;gap:4px}
+.builder input,.builder select{font:inherit;font-size:16px;padding:7px 9px;border:2px solid var(--line);border-radius:8px;background:var(--paper);color:var(--ink);width:110px}
+.out{font-family:var(--cond);font-size:30px;font-weight:700;letter-spacing:.03em;margin-top:12px;padding:8px 14px;background:var(--gold-soft);border-radius:8px;display:inline-block}
+
+/* Controls */
+.sod{display:grid;grid-template-columns:repeat(3,1fr);gap:0;margin-top:14px;border-radius:12px;overflow:hidden;border:1px solid var(--line)}
+.sod div{padding:16px}
+.sod div:nth-child(1){background:var(--pcard-soft)}
+.sod div:nth-child(2){background:var(--nopo-soft)}
+.sod div:nth-child(3){background:var(--po-soft)}
+.sod b{font-family:var(--cond);font-size:22px;display:block}
+@media (max-width:640px){.sod{grid-template-columns:1fr}}
+
+/* Outline */
+details{border-bottom:1px solid var(--line);padding:10px 0}
+summary{cursor:pointer;font-weight:700;font-size:17px}
+details ul{margin:8px 0 4px;padding-left:22px;font-size:15.5px}
+.flag{border-left:4px solid var(--stop);background:var(--stop-soft);padding:14px 16px;border-radius:0 10px 10px 0;margin-top:14px}
+.flag ul{margin:6px 0 0;padding-left:20px;font-size:15.5px}
+footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
+</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="Sections">
+  <div class="nav-inner">
+    <b>ARC Payment Policy</b>
+    <a href="#finder">Approval finder</a>
+    <a href="#method">Choose a method</a>
+    <a href="#thresholds">Thresholds</a>
+    <a href="#workflows">Workflows</a>
+    <a href="#pcard">P-Card</a>
+    <a href="#docs">Documentation</a>
+    <a href="#controls">Controls</a>
+    <a href="#disputes">Disputes</a>
+    <a href="#roles">Roles</a>
+    <a href="#outline">Outline</a>
+  </div>
+</nav>
+
+<main class="wrap">
+
+<header class="hero" id="finder">
+  <div class="bars" aria-hidden="true">
+    <i style="height:100%;background:var(--gold)"></i><i style="height:70%;background:var(--pcard)"></i><i style="height:88%;background:var(--nopo)"></i><i style="height:55%;background:var(--po)"></i><i style="height:76%;background:var(--stop)"></i><i style="height:40%;background:var(--gold)"></i>
+  </div>
+  <h1>Payment Policy: A/P and P-Card</h1>
+  <p class="sub">A quick guide to how ARC pays vendors, partners and jurisdictions: which payment method to use, who has to sign, and what paperwork has to be attached. Based on the policy dated 3/5/2026.</p>
+
+  <div class="hero-grid">
+    <div class="summary">
+      <h3>The policy in eight points</h3>
+      <ul>
+        <li><strong>Payments only.</strong> This policy governs disbursements. Buying authority comes from the Procurement and Contracting Policy, which applies first.</li>
+        <li><strong>Three ways to pay:</strong> P-Card, A/P without a PO, or A/P with a PO (check, wire or EFT).</li>
+        <li><strong>Every payment needs approval</strong> and a staff attestation that goods or services were received.</li>
+        <li><strong>$5,000 is the key line.</strong> Above it: Chief Officer approval, a PO (unless a listed exception applies), and no single P-Card purchase without competitive procurement or a State Contract.</li>
+        <li><strong>$25,000 is the top line.</strong> Above it: CEO approval. No P-Card limit may ever exceed it.</li>
+        <li><strong>No W-9 or Vendor Information Form, no payment.</strong> E-Verify is required for vendors over $2,500.</li>
+        <li><strong>ARC is sales-tax exempt.</strong> Never pay sales tax on an invoice.</li>
+        <li><strong>Segregation of duties:</strong> no one person can request, review, authorize and execute the same payment.</li>
+      </ul>
+    </div>
+
+    <div class="finder" aria-labelledby="finder-h">
+      <h3 id="finder-h">Who needs to approve this payment?</h3>
+      <p class="hint">Pick a method and enter the amount to see the required approval chain.</p>
+      <div class="field">
+        <label id="m-lbl">Payment method</label>
+        <div class="seg" role="group" aria-labelledby="m-lbl">
+          <button type="button" data-m="pcard" aria-pressed="false">P-Card</button>
+          <button type="button" data-m="nopo" aria-pressed="false">A/P without PO</button>
+          <button type="button" data-m="po" aria-pressed="true">A/P with PO</button>
+        </div>
+      </div>
+      <div class="field">
+        <label for="amt">Payment amount</label>
+        <div class="amount"><span>$</span><input id="amt" inputmode="decimal" value="7,500" aria-describedby="amt-h"></div>
+        <label class="check" id="partial-wrap"><input type="checkbox" id="partial"> This is a partial payment on a larger procurement</label>
+      </div>
+      <ol class="chain" id="chain" aria-live="polite"></ol>
+      <div class="alerts" id="alerts" aria-live="polite"></div>
+    </div>
+  </div>
+</header>
+
+<section id="method">
+  <h2>Choosing a payment method</h2>
+  <p class="lede">Start at the top. A contract or purchase order always decides the path first; amount and purchase type decide the rest.</p>
+
+  <div class="flow">
+    <div class="node q">Is there a contract or purchase order for this purchase?</div>
+    <div class="branch">
+      <div>
+        <span class="lbl">Yes</span>
+        <div class="node end wp">Pay with PO<small>All contract payments follow the PO process. A PO’d purchase is never paid any other way.</small></div>
+      </div>
+      <div>
+        <span class="lbl">No</span>
+        <div class="node q">Is the amount over $5,000?</div>
+        <div class="branch">
+          <div>
+            <span class="lbl">Yes</span>
+            <div class="node q">Is it a listed A/P exception?<small>Rent, utilities, phone, insurance, recurring operating costs, temp staffing, conference fees, annual software licenses or single annual payments (with executed contract)</small></div>
+            <div class="branch">
+              <div><span class="lbl">Yes</span><div class="node end np">Pay through A/P without PO</div></div>
+              <div><span class="lbl">No</span><div class="node end st">Stop: a PO is required<small>Follow the Procurement and Contracting Policy first</small></div></div>
+            </div>
+          </div>
+          <div>
+            <span class="lbl">No (micro-purchase)</span>
+            <div class="node q">Suitable for a card?<small>Not travel, not a prohibited item, not a contract payment</small></div>
+            <div class="branch">
+              <div><span class="lbl">Yes</span><div class="node end pc">P-Card</div></div>
+              <div><span class="lbl">No</span><div class="node end np">A/P without PO<small>Department Head approval required</small></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="panel-note">Travel reimbursements, registration and lodging are entered at the department level for Finance to process. Conference registration may go on a P-Card.</p>
+</section>
+
+<section id="thresholds">
+  <h2>Dollar thresholds at a glance</h2>
+  <p class="lede">Four numbers do most of the work in this policy. The bar shows who gives final sign-off in each range (not drawn to scale).</p>
+
+  <div class="scale" role="img" aria-label="Approval tiers: up to $5,000 Department Head; over $5,000 Chief Officer; over $25,000 CEO">
+    <div class="scale-track">
+      <div class="t1">Department Head</div>
+      <div class="t2">+ Chief Officer</div>
+      <div class="t3">+ CEO or delegate</div>
+    </div>
+    <div class="ticks"><span>$0</span><span>$5,000</span><span><span>$25,000</span><span>and up</span></span></div>
+  </div>
+
+  <div class="markers">
+    <div class="marker"><div class="amt">$2,500</div><ul><li>Vendor E-Verify status must be verifiable above this amount.</li></ul></div>
+    <div class="marker"><div class="amt">$4,999</div><ul><li>Annual cumulative cap for small recurring purchases (subscriptions) on a P-Card.</li></ul></div>
+    <div class="marker"><div class="amt">$5,000</div><ul><li>Department Head approval ceiling; Chief Officer above.</li><li>PO required above, unless an A/P exception applies.</li><li>Standard P-Card monthly limit.</li><li>Maximum single P-Card purchase without competitive procurement or State Contract.</li></ul></div>
+    <div class="marker"><div class="amt">$25,000</div><ul><li>CEO or delegate approval above.</li><li>Absolute P-Card limit, even with a temporary CFO-approved increase.</li></ul></div>
+  </div>
+
+  <h3 style="margin-top:36px">Approval matrix by payment method</h3>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Approver</th><th class="c pc">P-Card</th><th class="c np">A/P without PO</th><th class="c wp">A/P with PO</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Staff attestation</strong><br><span class="no">Signed invoice, legible first and last name</span></td><td class="c"><span class="pill yes">Every purchase</span></td><td class="c"><span class="pill yes">Every purchase</span></td><td class="c"><span class="pill yes">Every purchase</span></td></tr>
+        <tr><td><strong>Budget Manager or fiscal designee</strong><br><span class="no">Allowability, funding, cost center</span></td><td class="c"><span class="pill yes">Always</span></td><td class="c"><span class="pill yes">Always</span></td><td class="c"><span class="pill yes">Always</span></td></tr>
+        <tr><td><strong>Department Head or delegate</strong></td><td class="c"><span class="pill yes">Monthly statement</span></td><td class="c"><span class="pill yes">Always</span></td><td class="c"><span class="pill yes">Always</span></td></tr>
+        <tr><td><strong>Chief Officer or delegate</strong></td><td class="c"><span class="no">Not listed</span></td><td class="c"><span class="pill cond">Over $5,000*</span></td><td class="c"><span class="pill cond">Over $5,000*</span></td></tr>
+        <tr><td><strong>CEO or delegate</strong></td><td class="c"><span class="no">Not listed</span></td><td class="c"><span class="pill cond">Over $25,000†</span></td><td class="c"><span class="pill cond">Over $25,000</span></td></tr>
+        <tr><td><strong>Finance Department</strong></td><td class="c"><span class="pill yes">Reconciliation review</span></td><td class="c"><span class="pill yes">3-way match</span></td><td class="c"><span class="pill yes">3-way match</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="panel-note">* Also required at $5,000 or less when the payment is a partial payment on a larger procurement. † Section 1.4.5 requires CEO approval of all payments over $25,000; the A/P-without-PO process in Section 3.1.2 does not list this step.</p>
+</section>
+
+<section id="workflows">
+  <h2>Approval workflows</h2>
+  <p class="lede">Each payment moves left to right. Steps marked in gold apply only above the threshold shown.</p>
+  <div class="tabs" role="tablist" aria-label="Payment method">
+    <button role="tab" data-t="pcard" aria-selected="true" aria-controls="wf">P-Card</button>
+    <button role="tab" data-t="nopo" aria-selected="false" aria-controls="wf">A/P without PO</button>
+    <button role="tab" data-t="po" aria-selected="false" aria-controls="wf">A/P with PO</button>
+  </div>
+  <div id="wf" role="tabpanel"></div>
+</section>
+
+<section id="pcard">
+  <h2>P-Card essentials</h2>
+  <p class="lede">A card holder is personally responsible for every charge that lacks proper documentation.</p>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Rule</th><th>Limit or requirement</th><th>Who can change it</th></tr></thead>
+      <tbody>
+        <tr><td>Monthly credit limit</td><td><strong>$5,000</strong></td><td>CFO or Deputy CFO, temporarily, with written justification</td></tr>
+        <tr><td>Maximum limit under any circumstances</td><td><strong>$25,000</strong></td><td>No one</td></tr>
+        <tr><td>Single purchase over $5,000</td><td>Only with competitive procurement or a State Contract</td><td>Procurement policy governs</td></tr>
+        <tr><td>Split transactions</td><td>Prohibited when used to get around limits or procurement</td><td>No one</td></tr>
+        <tr><td>Recurring purchases (subscriptions)</td><td>Allowed if annual total is $4,999 or less</td><td>—</td></tr>
+        <tr><td>Cards per person</td><td>One active card; permanent, full-time staff only</td><td>CFO or Deputy CFO</td></tr>
+        <tr><td>Statement and receipt upload deadline</td><td><strong>15th of the following month</strong> (next business day if weekend or holiday)</td><td>Missing it risks suspension; late fees are charged to the department</td></tr>
+        <tr><td>Cash advances</td><td>Not permitted</td><td>—</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cols" style="margin-top:28px">
+    <div class="box">
+      <h3>Card life cycle</h3>
+      <ul>
+        <li><strong>Obtain:</strong> sign the cardholder agreement; Finance authorizes the card.</li>
+        <li><strong>Buy:</strong> named cardholder only; keep an itemized receipt for every transaction, including refunds.</li>
+        <li><strong>Reconcile:</strong> enter each transaction (purpose, cost center, account code, requester) and upload receipts in statement order.</li>
+        <li><strong>Approve:</strong> Budget Manager, then Department Head signs the reconciliation; Finance reviews.</li>
+        <li><strong>Pay:</strong> Finance makes one consolidated monthly payment to the control account.</li>
+        <li><strong>Lost or stolen:</strong> notify Finance immediately. <strong>Leaving ARC:</strong> surrender the card to Finance.</li>
+      </ul>
+    </div>
+    <div class="box">
+      <h3>Special documentation</h3>
+      <ul>
+        <li><strong>Meeting food:</strong> vendor invoice, meeting agenda and sign-in sheet.</li>
+        <li><strong>Missing itemized receipt:</strong> cardholder reimburses ARC by the statement due date.</li>
+        <li><strong>Travel:</strong> not on the P-Card except as the Travel policy allows; conference registration is fine.</li>
+        <li><strong>Contracts:</strong> never on the P-Card; use the PO process.</li>
+        <li><strong>Fuel cards:</strong> fuel only, with an invoice or ticket for every charge.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:30px">Never on a P-Card</h3>
+  <div class="no-list">
+    <div>Alcohol</div><div>Entertainment</div><div>Gift cards</div><div>Personal purchases</div><div>Individual meals (per diem)</div><div>Tobacco</div>
+  </div>
+  <p class="panel-note">A prohibited purchase means immediate, permanent loss of the card, reimbursement to ARC and possible discipline. Other exceptions go to the CFO or Deputy CFO, whose response can extend to termination.</p>
+
+  <div class="box" style="margin-top:28px">
+    <h3>Statement invoice number builder</h3>
+    <p class="panel-note" style="margin-top:0">Format: cardholder initials + last four digits of card + first three letters of the activity month + four-digit year. The invoice amount must equal the statement total.</p>
+    <div class="builder">
+      <label>Initials<input id="b-ini" maxlength="3" value="JD"></label>
+      <label>Last 4 of card<input id="b-l4" maxlength="4" inputmode="numeric" value="5555"></label>
+      <label>Activity month<select id="b-mo"></select></label>
+      <label>Year<input id="b-yr" maxlength="4" inputmode="numeric" value="2026"></label>
+    </div>
+    <div class="out" id="b-out" aria-live="polite">JD5555Aug2026</div>
+    <p class="panel-note">Activity month is the month before the statement closes. Example from the policy: a statement closing 1/2/2017 is numbered JD5555Dec2016.</p>
+  </div>
+</section>
+
+<section id="docs">
+  <h2>What every payment needs attached</h2>
+  <p class="lede">Finance will put a payment on hold if items are missing. Unresolved gaps go to the CFO and Department Head to decide on payment or rejection.</p>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Required item</th><th class="c pc">P-Card</th><th class="c np">No PO</th><th class="c wp">With PO</th></tr></thead>
+      <tbody>
+        <tr><td>Vendor name and payment (remit) address</td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td></tr>
+        <tr><td>Description of services, or quantity and unit price</td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td></tr>
+        <tr><td>Invoice number</td><td class="c"><span class="pill cond">Or transaction no.</span></td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td></tr>
+        <tr><td>Invoice date</td><td class="c"><span class="pill cond">Or transaction date</span></td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td></tr>
+        <tr><td>Period of performance</td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td></tr>
+        <tr><td>Total invoice amount</td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td></tr>
+        <tr><td>ARC staff attestation (signed, legible full name)</td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td></tr>
+        <tr><td>ARC representative name and address</td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td><td class="c"><span class="pill yes">Required</span></td></tr>
+        <tr><td>Remittance information</td><td class="c"><span class="pill opt">Optional</span></td><td class="c"><span class="pill opt">Optional</span></td><td class="c"><span class="pill opt">Optional</span></td></tr>
+        <tr><td>Payment option</td><td class="c"><span class="pill opt">Optional</span></td><td class="c"><span class="pill opt">Optional</span></td><td class="c"><span class="pill opt">Optional</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="cols" style="margin-top:22px">
+    <div class="box"><h3>Also required</h3><ul><li>W-9 or Vendor Information Form on file (exceptions need CFO authorization).</li><li>Executed contract for annual licenses and single annual payments paid without a PO.</li><li>Progress documentation for partial or periodic payments.</li><li>Special disbursement instructions entered in the system; otherwise the check mails to the selected address.</li></ul></div>
+    <div class="box"><h3>Not accepted in place of an invoice</h3><ul><li>Notices</li><li>Statements</li><li>Other summary documentation</li></ul><p class="panel-note">Exception: the monthly P-Card statement is treated as the invoice for card purchases.</p></div>
+  </div>
+</section>
+
+<section id="controls">
+  <h2>Disbursement controls</h2>
+  <p class="lede">No single person controls every step of a payment.</p>
+  <div class="sod">
+    <div><b>Request</b>ARC staff initiate the payment and attest to receipt.</div>
+    <div><b>Approve</b>A separate person approves: Department Head, Chief Officer or CEO by threshold.</div>
+    <div><b>Process</b>Finance reviews the voucher package and executes payment.</div>
+  </div>
+  <div class="cols" style="margin-top:22px">
+    <div class="box"><h3>Positive Pay</h3><ul><li>Finance sends the bank each check run’s check numbers, amounts and payees.</li><li>The bank flags any presented check that doesn’t match all three.</li></ul></div>
+    <div class="box"><h3>Checks</h3><ul><li>Never payable to “bearer” or “cash,” including emergency checks.</li><li>Voids: note in the check log and mark the check VOID.</li><li>Stop payments: enter in the bank portal, then in the ERP with a reversing entry.</li><li>Held checks: requestor signs and dates a copy at pickup.</li></ul></div>
+    <div class="box"><h3>Records</h3><ul><li>Keep invoices, POs, contracts and approvals in the financial system.</li><li>Maintain an audit trail of who approved and processed each payment.</li><li>Retain per ARC’s records retention policy; flag 1099-reportable vendors.</li></ul></div>
+  </div>
+</section>
+
+<section id="disputes">
+  <h2>When an invoice is wrong</h2>
+  <p class="lede">Hold the payment until the discrepancy is resolved.</p>
+  <div class="flow">
+    <div class="node">Staff find an error<small>Wrong quantity, damaged goods, overcharge</small></div>
+    <div class="down"></div>
+    <div class="node">Notify the vendor, partner or jurisdiction<small>Email, phone or formal letter</small></div>
+    <div class="down"></div>
+    <div class="node q">Did they correct the invoice?</div>
+    <div class="branch">
+      <div><span class="lbl">Yes</span><div class="node end pc">Proceed with normal approval</div></div>
+      <div><span class="lbl">No</span>
+        <div class="node end st">Send a memo to the CFO<small>No payment is processed in the meantime</small></div>
+        <div class="down"></div>
+        <div class="node">CFO recommends a course of action<small>May include contract review and General Counsel</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="roles">
+  <h2>Roles and responsibilities</h2>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Role</th><th>Core responsibilities</th><th>Approves</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Program Manager, support staff, employee</strong></td><td>Review invoice accuracy, attest delivery, resolve discrepancies with the vendor, chase late invoices, submit documentation</td><td>Attestation only</td></tr>
+        <tr><td><strong>Budget Manager or fiscal delegate</strong></td><td>Confirm grant allowability, correct cost center, available funds and complete documentation; reject if issues</td><td>Fiscal review, all payments</td></tr>
+        <tr><td><strong>Department Head or delegate</strong></td><td>Review accuracy; reject for fiscal or operational issues; route over $5,000 to Chief Officer</td><td>All department payments</td></tr>
+        <tr><td><strong>Chief Officer or delegate</strong></td><td>Review accuracy; route over $25,000 to CEO</td><td>Over $5,000</td></tr>
+        <tr><td><strong>CEO or delegate</strong></td><td>Review accuracy; reject for issues</td><td>Over $25,000</td></tr>
+        <tr><td><strong>Finance Department</strong></td><td>Process payments, verify support and 3-way match, maintain records and vendor master file</td><td>Disbursement</td></tr>
+        <tr><td><strong>CFO or Deputy CFO</strong></td><td>P-Card limit increases, extra cards, missing-W-9 payments, policy exceptions (documented in writing), disputes</td><td>Exceptions</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="outline">
+  <h2>Policy outline</h2>
+  <p class="lede">Section map of the source document, with the key point of each.</p>
+  <details><summary>1.0 Policy Overview</summary><ul><li>1.1 Purpose: consistent, controlled payments; does not grant procurement authority</li><li>1.2 Scope: all disbursements by any method and all staff involved</li><li>1.3 Definitions: AP, accrual, invoice, PO, P-Card, three-way match, voucher, Net 30/60, and more</li><li>1.4 Responsibilities: staff, Budget Manager, Department Head, Chief Officer, CEO, Finance</li><li>1.5 Key payment requirements: valid liabilities, receipt verified, W-9, E-Verify over $2,500, no sales tax</li></ul></details>
+  <details><summary>2.0 Policy Statement</summary><ul><li>2.1.1 Invoice receipt, verification, approval and payment terms</li><li>2.1.2 Payment types: P-Card (limits, eligibility, responsibilities, prohibited items, loss, departure, non-compliance, fuel cards), without PO (micro-purchases and exceptions), with PO (over $5,000)</li><li>2.1.3 Record keeping and documentation</li><li>2.1.4 Payment controls: segregation of duties, audit trails</li><li>2.1.5 Compliance, including 1099 reporting</li><li>2.2 Exceptions: CFO or Deputy CFO, documented in writing</li></ul></details>
+  <details><summary>3.0 Process</summary><ul><li>3.1 Payment approval steps for P-Card, A/P without PO, A/P with PO</li><li>3.1.1.1 P-Card statement naming convention and 15th-of-month deadline</li><li>3.2 Invoice and payment support matrix</li></ul></details>
+  <details><summary>4.0 Disbursement Controls</summary><ul><li>4.1 Segregation of duties</li><li>4.2 Positive Pay</li><li>4.3 No checks payable to bearer or cash</li><li>4.4 Voided checks and stop payments</li></ul></details>
+  <details><summary>5.0 Other Aspects</summary><ul><li>5.1 Payment dispute resolution</li><li>5.2 Mailing and holding checks</li><li>5.3 Vendor master file additions and updates</li></ul></details>
+
+  <div class="flag">
+    <h3>Items worth clarifying in the next revision</h3>
+    <ul>
+      <li>Section 3.1.2 (A/P without PO) omits the CEO step for payments over $25,000 that Section 1.4.5 requires for all payments.</li>
+      <li>The Procurement policy is named two ways (“Procurement and Contracting” and “Purchasing and Procurement”), as is the Travel policy (“Travel and Expense” and “Travel and Reimbursement”).</li>
+      <li>The page header still reads “[Policy Name],” and Section 3.2 jumps to 3.2.2 with no 3.2.1.</li>
+      <li>The micro-purchase threshold is referenced but not stated; readers must look it up in the Procurement policy.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>Summary of ARC Payment Policy: A/P and P-Card (3/5/2026). The policy document controls in any conflict with this guide.</footer>
+</main>
+
+<script>
+(function(){
+  const fmt = n => n.toLocaleString("en-US",{style:"currency",currency:"USD",maximumFractionDigits:0});
+  let method = "po";
+  const amt = document.getElementById("amt"), partial = document.getElementById("partial");
+  const chain = document.getElementById("chain"), alerts = document.getElementById("alerts");
+
+  function render(){
+    const v = parseFloat(String(amt.value).replace(/[^0-9.]/g,"")) || 0;
+    const steps = [], notes = [];
+    steps.push(["Staff attestation","Signed invoice confirming goods or services received",false]);
+    steps.push(["Budget Manager or fiscal designee","Allowability, funding and cost center",false]);
+    if(method==="pcard"){
+      steps.push(["Department Head","Signs the monthly statement reconciliation",false]);
+      steps.push(["Finance Department","Reviews the reconciliation and flags exceptions",false]);
+      if(v>5000) notes.push(["stop","Over $5,000 in a single purchase: only allowed through competitive procurement or a State Contract. It also exceeds the standard $5,000 monthly limit."]);
+      if(v>25000) notes.push(["stop","Over $25,000: exceeds the maximum P-Card limit under any circumstances. Use the PO process."]);
+      notes.push(["","Upload the statement and itemized receipts by the 15th of the following month."]);
+    } else {
+      steps.push(["Department Head","Approves all department payments",false]);
+      if(v>5000 || partial.checked) steps.push(["Chief Officer",v>5000?"Required over $5,000":"Required because this is a partial payment on a larger procurement",true]);
+      if(v>25000) steps.push(["CEO or delegate","Required over $25,000",true]);
+      steps.push(["Finance Department","3-way match of the voucher package, then disbursement",false]);
+      if(method==="nopo" && v>5000) notes.push(["stop","Over $5,000 without a PO is allowed only for listed exceptions (rent, utilities, phone, insurance, recurring operating, temp staffing, conference fees, annual licenses with executed contract)."]);
+      if(method==="nopo" && v>25000) notes.push(["","Section 3.1.2 doesn't list the CEO step for this path, but Section 1.4.5 requires CEO approval for all payments over $25,000."]);
+    }
+    if(v>2500) notes.push(["","Vendor must have a verifiable tax ID, legal status and E-Verify status."]);
+    notes.push(["","W-9 or Vendor Information Form must be on file before payment."]);
+    chain.innerHTML = steps.map(s=>`<li class="${s[2]?"added":""}"><b>${s[0]}</b>${s[1]}</li>`).join("");
+    alerts.innerHTML = notes.map(n=>`<div class="alert ${n[0]}">${n[1]}</div>`).join("");
+    document.getElementById("partial-wrap").style.display = method==="pcard" ? "none" : "flex";
+  }
+  document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{
+    method=b.dataset.m;
+    document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    render();
+  }));
+  amt.addEventListener("input",render);
+  amt.addEventListener("blur",()=>{const v=parseFloat(String(amt.value).replace(/[^0-9.]/g,""));if(!isNaN(v))amt.value=v.toLocaleString("en-US");});
+  partial.addEventListener("change",render);
+  render();
+
+  // Workflows
+  const WF = {
+    pcard:[["Staff","Every purchase","Attest receipt on the invoice or by email with electronic signature"],["Budget Manager","Always","Confirm allowability and funding; refer to Department Head"],["Department Head","Monthly","Review and sign the statement reconciliation"],["Finance","Monthly","Review reconciliation, flag exceptions, pay control account"]],
+    nopo:[["Staff","Every purchase","Attest receipt; signed invoice with legible full name"],["Budget Manager","Always","Confirm allowability and funding; route to Department Head"],["Department Head","Always","Approves up to $5,000"],["Chief Officer","Over $5,000","Or any partial payment on a larger procurement",1],["Finance","Always","3-way match: invoice, receiving report, staff acknowledgement"]],
+    po:[["Staff","Every purchase","Attest receipt; signed invoice with legible full name"],["Budget Manager","Always","Confirm allowability and funding; route to Department Head"],["Department Head","Always","Approves up to $5,000"],["Chief Officer","Over $5,000","Or any partial payment on a larger procurement",1],["CEO or delegate","Over $25,000","Final executive approval",1],["Finance","Always","3-way match: invoice, PO, receiving report, staff acknowledgement"]]
+  };
+  const NOTES = {
+    pcard:"Monthly statement is the invoice. Deadline: 15th of the following month.",
+    nopo:"For micro-purchases and listed exceptions only. Anything with a PO must use the PO process.",
+    po:"Required for all purchases over $5,000 and all contract payments."
+  };
+  const wf = document.getElementById("wf");
+  function showWF(t){
+    wf.innerHTML = `<div class="pipe">${WF[t].map((s,i)=>`${i?'<div class="arrow" aria-hidden="true">›</div>':''}<div class="stage"><div class="who">${s[0]}</div><span class="when ${s[3]?"c":""}">${s[1]}</span><p>${s[2]}</p></div>`).join("")}</div><p class="panel-note">${NOTES[t]}</p>`;
+  }
+  document.querySelectorAll(".tabs button").forEach(b=>b.addEventListener("click",()=>{
+    document.querySelectorAll(".tabs button").forEach(x=>x.setAttribute("aria-selected",x===b));
+    showWF(b.dataset.t);
+  }));
+  showWF("pcard");
+
+  // Invoice builder
+  const months=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  const mo=document.getElementById("b-mo");
+  mo.innerHTML=months.map(m=>`<option${m==="Aug"?" selected":""}>${m}</option>`).join("");
+  const ini=document.getElementById("b-ini"),l4=document.getElementById("b-l4"),yr=document.getElementById("b-yr"),out=document.getElementById("b-out");
+  function build(){out.textContent=(ini.value||"").toUpperCase().replace(/[^A-Z]/g,"")+(l4.value||"").replace(/\D/g,"")+mo.value+(yr.value||"").replace(/\D/g,"");}
+  [ini,l4,mo,yr].forEach(el=>el.addEventListener("input",build));
+  build();
+})();
+</script>
+</body>
+</html>
