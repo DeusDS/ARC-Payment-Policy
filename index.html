@@ -41,21 +41,39 @@
   --stop:#F0676D; --stop-soft:#3A1A1C;
 }
 *,*::before,*::after{box-sizing:inherit}
-html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 64px);scroll-behavior:smooth}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 110px);scroll-behavior:smooth}
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.55}
 img,svg{max-width:100%}
 a{color:inherit}
 :focus-visible{outline:3px solid var(--gold);outline-offset:2px}
 
-/* Nav */
-.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--gold);color:#1E2733}
-.nav-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:18px;padding:10px 20px;overflow-x:auto;white-space:nowrap}
-.nav b{font-family:var(--cond);font-size:20px;letter-spacing:.02em}
-.nav a{text-decoration:none;font-weight:600;font-size:15px;padding:4px 2px;border-bottom:2px solid transparent}
-.nav a:hover{border-bottom-color:#1E2733}
-.nav a[aria-current="page"]{border-bottom:3px solid #1E2733;padding-bottom:3px}
+/* Header: title bar + chapter bar */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--paper);box-shadow:0 1px 0 var(--line)}
+.nav-inner{max-width:1120px;margin:0 auto;padding:0 20px}
+.nav-top{background:var(--gold);color:#1E2733}
+.nav-top .nav-inner{display:flex;align-items:center;min-height:46px}
+.brand{font-family:var(--cond);font-size:21px;font-weight:700;letter-spacing:.01em;text-decoration:none;line-height:1.15;padding:6px 0}
 
+.chapter-bar .nav-inner{display:flex;flex-wrap:wrap;justify-content:space-between;gap:2px;padding-top:6px;padding-bottom:6px}
+.chapter-bar a{display:flex;align-items:center;justify-content:center;text-align:center;text-decoration:none;font-weight:600;font-size:15px;line-height:1.2;color:var(--muted);padding:8px 6px;border-radius:8px;white-space:nowrap}
+.chapter-bar a:hover{color:var(--ink);background:var(--panel)}
+.chapter-bar a[aria-current="page"]{color:var(--ink);background:var(--gold-soft);box-shadow:inset 0 -3px 0 var(--gold)}
+.chapters .chapter-bar .nav-inner{flex-wrap:nowrap}
+
+/* When the chapters don't fit on one line, lay them out as an even grid */
+.nav.rows .chapter-bar .nav-inner{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px}
+.nav.rows .chapter-bar a{white-space:normal}
+
+@media (max-width:760px){
+  /* Four rows would cover too much of a small screen, so the header stays at the top of the page instead of following the scroll */
+  .nav{position:relative}
+}
+@media (max-width:520px){
+  .brand{font-size:19px}
+  .nav.rows .chapter-bar .nav-inner{grid-template-columns:repeat(2,minmax(0,1fr));padding-left:12px;padding-right:12px}
+  .chapter-bar a{font-size:15px;padding:8px 4px;min-height:42px}
+}
 /* Chapters: only applied when JS is running, so the page still reads top to bottom without it */
 .chapters [data-chapter][hidden]{display:none}
 [data-chapter] h1:focus,[data-chapter] h2:focus{outline:none}
@@ -67,7 +85,6 @@ a{color:inherit}
 .pager a.next{margin-left:auto;text-align:right}
 .pager small{color:var(--muted);font-size:13px;font-weight:600}
 .pager span{font-family:var(--cond);font-size:20px;font-weight:700;line-height:1.15}
-.pager-count{color:var(--muted);font-size:14px;margin:0 0 4px}
 
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
 section{padding:56px 0 8px}
@@ -217,19 +234,25 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
 </head>
 <body>
 
-<nav class="nav" aria-label="Sections">
-  <div class="nav-inner">
-    <b>ARC Payment Policy</b>
-    <a href="#finder">Approval finder</a>
-    <a href="#method">Choose a method</a>
-    <a href="#thresholds">Thresholds</a>
-    <a href="#workflows">Workflows</a>
-    <a href="#pcard">P-Card</a>
-    <a href="#docs">Documentation</a>
-    <a href="#controls">Controls</a>
-    <a href="#disputes">Disputes</a>
-    <a href="#roles">Roles</a>
-    <a href="#outline">Outline</a>
+<nav class="nav" aria-label="Chapters">
+  <div class="nav-top">
+    <div class="nav-inner">
+      <a class="brand" href="#finder">ARC Payment Policy</a>
+    </div>
+  </div>
+  <div class="chapter-bar" id="chapter-bar">
+    <div class="nav-inner">
+      <a href="#finder">Approval finder</a>
+      <a href="#method">Choose a method</a>
+      <a href="#thresholds">Thresholds</a>
+      <a href="#workflows">Workflows</a>
+      <a href="#pcard">P-Card</a>
+      <a href="#docs">Documentation</a>
+      <a href="#controls">Controls</a>
+      <a href="#disputes">Disputes</a>
+      <a href="#roles">Roles</a>
+      <a href="#outline">Outline</a>
+    </div>
   </div>
 </nav>
 
@@ -602,40 +625,47 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   function build(){out.textContent=(ini.value||"").toUpperCase().replace(/[^A-Z]/g,"")+(l4.value||"").replace(/\D/g,"")+mo.value+(yr.value||"").replace(/\D/g,"");}
   [ini,l4,mo,yr].forEach(el=>el.addEventListener("input",build));
   build();
-
-  // Chapters: show one section at a time, driven by the URL hash
+})();
+// Chapters: show one section at a time
+(function(){
   const chapters=[...document.querySelectorAll("[data-chapter]")];
-  const links=[...document.querySelectorAll(".nav a[href^='#']")];
-  const titleOf=id=>{const a=links.find(l=>l.getAttribute("href")==="#"+id);return a?a.dataset.label:id;};
+  const nav=document.querySelector(".nav");
+  const bar=document.getElementById("chapter-bar");
+  const row=bar.querySelector(".nav-inner");
+  const links=[...bar.querySelectorAll("a[href^='#']")];
+  if(!chapters.length) return;
   links.forEach(a=>{a.dataset.label=a.textContent.trim();});
+  const titleOf=id=>{const a=links.find(l=>l.getAttribute("href")==="#"+id);return a?a.dataset.label:id;};
+  const baseTitle=document.title;
   chapters.forEach((ch,i)=>{
     const prev=chapters[i-1],next=chapters[i+1];
     ch.insertAdjacentHTML("beforeend",`<nav class="pager" aria-label="Chapter navigation">${prev?`<a class="prev" href="#${prev.id}"><small>Previous</small><span>${titleOf(prev.id)}</span></a>`:""}${next?`<a class="next" href="#${next.id}"><small>Next</small><span>${titleOf(next.id)}</span></a>`:""}</nav>`);
   });
   document.documentElement.classList.add("chapters");
-  const strip=document.querySelector(".nav-inner");
+
+  // Keep every chapter on one line when it fits; otherwise switch to an even multi-row grid
+  function fit(){
+    nav.classList.remove("rows");
+    nav.classList.toggle("rows",row.scrollWidth>row.clientWidth+1);
+  }
+  // Recheck only when the window size changes, at most once per frame
+  let pending=0;
+  window.addEventListener("resize",()=>{if(!pending)pending=requestAnimationFrame(()=>{pending=0;fit();});});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(fit);
+
+  function toTop(){try{window.scrollTo({top:0,left:0,behavior:"instant"});}catch(e){window.scrollTo(0,0);}}
   function showChapter(id,fromNav){
     const target=chapters.find(c=>c.id===id)||chapters[0];
     chapters.forEach(c=>c.hidden=c!==target);
-    links.forEach(a=>{
-      if(a.getAttribute("href")==="#"+target.id){
-        a.setAttribute("aria-current","page");
-        // keep the active chapter visible in the header strip without scrolling the page
-        const l=a.offsetLeft, r=l+a.offsetWidth;
-        if(l<strip.scrollLeft) strip.scrollLeft=l-20;
-        else if(r>strip.scrollLeft+strip.clientWidth) strip.scrollLeft=r-strip.clientWidth+20;
-      } else a.removeAttribute("aria-current");
-    });
-    document.title=(target===chapters[0]?"":titleOf(target.id)+" | ")+"ARC Payment Policy: A/P and P-Card Quick Guide";
+    links.forEach(a=>{if(a.getAttribute("href")==="#"+target.id)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+    document.title=(target===chapters[0]?"":titleOf(target.id)+" | ")+baseTitle;
     if(fromNav){
-      window.scrollTo(0,0);
+      toTop();
       const h=target.querySelector("h1,h2");
       if(h){h.setAttribute("tabindex","-1");try{h.focus({preventScroll:true});}catch(e){}}
-      // update the address for bookmarking where the browser allows it; ignored in previews and embeds
       try{history.pushState({ch:target.id},"","#"+target.id);}catch(e){}
     }
   }
-  // Handle every in-page chapter link ourselves instead of letting the browser navigate
   document.addEventListener("click",e=>{
     const a=e.target.closest("a[href^='#']");
     if(!a) return;
@@ -647,12 +677,15 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   window.addEventListener("popstate",e=>{
     let id=e.state&&e.state.ch;
     if(!id){try{id=location.hash.slice(1);}catch(err){}}
-    showChapter(id,false); window.scrollTo(0,0);
+    showChapter(id,false); toTop();
   });
   let start="";
   try{start=location.hash.slice(1);}catch(e){}
   showChapter(start,false);
-  window.scrollTo(0,0);
+  fit();
+  toTop();
+  // The browser jumps to a #chapter link after loading; bring the page back to the top so the chapter list shows
+  window.addEventListener("load",()=>setTimeout(()=>toTop(),0));
 })();
 </script>
 </body>
