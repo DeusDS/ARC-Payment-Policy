@@ -54,6 +54,20 @@ a{color:inherit}
 .nav b{font-family:var(--cond);font-size:20px;letter-spacing:.02em}
 .nav a{text-decoration:none;font-weight:600;font-size:15px;padding:4px 2px;border-bottom:2px solid transparent}
 .nav a:hover{border-bottom-color:#1E2733}
+.nav a[aria-current="page"]{border-bottom:3px solid #1E2733;padding-bottom:3px}
+
+/* Chapters: only applied when JS is running, so the page still reads top to bottom without it */
+.chapters [data-chapter][hidden]{display:none}
+[data-chapter] h1:focus,[data-chapter] h2:focus{outline:none}
+.chapters [data-chapter]{min-height:calc(100vh - 220px)}
+.chapters section{padding-top:36px}
+.pager{display:flex;justify-content:space-between;gap:12px;margin-top:40px;padding-top:18px;border-top:1px solid var(--line)}
+.pager a{display:flex;flex-direction:column;text-decoration:none;padding:10px 14px;border:2px solid var(--line);border-radius:10px;min-width:0;max-width:48%}
+.pager a:hover{border-color:var(--gold)}
+.pager a.next{margin-left:auto;text-align:right}
+.pager small{color:var(--muted);font-size:13px;font-weight:600}
+.pager span{font-family:var(--cond);font-size:20px;font-weight:700;line-height:1.15}
+.pager-count{color:var(--muted);font-size:14px;margin:0 0 4px}
 
 .wrap{max-width:1120px;margin:0 auto;padding:0 20px}
 section{padding:56px 0 8px}
@@ -221,7 +235,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
 
 <main class="wrap">
 
-<header class="hero" id="finder">
+<header class="hero" id="finder" data-chapter>
   <div class="bars" aria-hidden="true">
     <i style="height:100%;background:var(--gold)"></i><i style="height:70%;background:var(--pcard)"></i><i style="height:88%;background:var(--nopo)"></i><i style="height:55%;background:var(--po)"></i><i style="height:76%;background:var(--stop)"></i><i style="height:40%;background:var(--gold)"></i>
   </div>
@@ -265,7 +279,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   </div>
 </header>
 
-<section id="method">
+<section id="method" data-chapter>
   <h2>Choosing a payment method</h2>
   <p class="lede">Start at the top. A contract or purchase order always decides the path first; amount and purchase type decide the rest.</p>
 
@@ -303,7 +317,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   <p class="panel-note">Travel reimbursements, registration and lodging are entered at the department level for Finance to process. Conference registration may go on a P-Card.</p>
 </section>
 
-<section id="thresholds">
+<section id="thresholds" data-chapter>
   <h2>Dollar thresholds at a glance</h2>
   <p class="lede">Four numbers do most of the work in this policy. The bar shows who gives final sign-off in each range (not drawn to scale).</p>
 
@@ -340,7 +354,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   <p class="panel-note">* Also required at $5,000 or less when the payment is a partial payment on a larger procurement. † Section 1.4.5 requires CEO approval of all payments over $25,000; the A/P-without-PO process in Section 3.1.2 does not list this step.</p>
 </section>
 
-<section id="workflows">
+<section id="workflows" data-chapter>
   <h2>Approval workflows</h2>
   <p class="lede">Each payment moves left to right. Steps marked in gold apply only above the threshold shown.</p>
   <div class="tabs" role="tablist" aria-label="Payment method">
@@ -351,7 +365,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   <div id="wf" role="tabpanel"></div>
 </section>
 
-<section id="pcard">
+<section id="pcard" data-chapter>
   <h2>P-Card essentials</h2>
   <p class="lede">A card holder is personally responsible for every charge that lacks proper documentation.</p>
 
@@ -415,7 +429,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   </div>
 </section>
 
-<section id="docs">
+<section id="docs" data-chapter>
   <h2>What every payment needs attached</h2>
   <p class="lede">Finance will put a payment on hold if items are missing. Unresolved gaps go to the CFO and Department Head to decide on payment or rejection.</p>
   <div class="tbl-wrap">
@@ -441,7 +455,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   </div>
 </section>
 
-<section id="controls">
+<section id="controls" data-chapter>
   <h2>Disbursement controls</h2>
   <p class="lede">No single person controls every step of a payment.</p>
   <div class="sod">
@@ -456,7 +470,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   </div>
 </section>
 
-<section id="disputes">
+<section id="disputes" data-chapter>
   <h2>When an invoice is wrong</h2>
   <p class="lede">Hold the payment until the discrepancy is resolved.</p>
   <div class="flow">
@@ -476,7 +490,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   </div>
 </section>
 
-<section id="roles">
+<section id="roles" data-chapter>
   <h2>Roles and responsibilities</h2>
   <div class="tbl-wrap">
     <table>
@@ -494,7 +508,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   </div>
 </section>
 
-<section id="outline">
+<section id="outline" data-chapter>
   <h2>Policy outline</h2>
   <p class="lede">Section map of the source document, with the key point of each.</p>
   <details><summary>1.0 Policy Overview</summary><ul><li>1.1 Purpose: consistent, controlled payments; does not grant procurement authority</li><li>1.2 Scope: all disbursements by any method and all staff involved</li><li>1.3 Definitions: AP, accrual, invoice, PO, P-Card, three-way match, voucher, Net 30/60, and more</li><li>1.4 Responsibilities: staff, Budget Manager, Department Head, Chief Officer, CEO, Finance</li><li>1.5 Key payment requirements: valid liabilities, receipt verified, W-9, E-Verify over $2,500, no sales tax</li></ul></details>
@@ -588,6 +602,57 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   function build(){out.textContent=(ini.value||"").toUpperCase().replace(/[^A-Z]/g,"")+(l4.value||"").replace(/\D/g,"")+mo.value+(yr.value||"").replace(/\D/g,"");}
   [ini,l4,mo,yr].forEach(el=>el.addEventListener("input",build));
   build();
+
+  // Chapters: show one section at a time, driven by the URL hash
+  const chapters=[...document.querySelectorAll("[data-chapter]")];
+  const links=[...document.querySelectorAll(".nav a[href^='#']")];
+  const titleOf=id=>{const a=links.find(l=>l.getAttribute("href")==="#"+id);return a?a.dataset.label:id;};
+  links.forEach(a=>{a.dataset.label=a.textContent.trim();});
+  chapters.forEach((ch,i)=>{
+    const prev=chapters[i-1],next=chapters[i+1];
+    ch.insertAdjacentHTML("beforeend",`<nav class="pager" aria-label="Chapter navigation">${prev?`<a class="prev" href="#${prev.id}"><small>Previous</small><span>${titleOf(prev.id)}</span></a>`:""}${next?`<a class="next" href="#${next.id}"><small>Next</small><span>${titleOf(next.id)}</span></a>`:""}</nav>`);
+  });
+  document.documentElement.classList.add("chapters");
+  const strip=document.querySelector(".nav-inner");
+  function showChapter(id,fromNav){
+    const target=chapters.find(c=>c.id===id)||chapters[0];
+    chapters.forEach(c=>c.hidden=c!==target);
+    links.forEach(a=>{
+      if(a.getAttribute("href")==="#"+target.id){
+        a.setAttribute("aria-current","page");
+        // keep the active chapter visible in the header strip without scrolling the page
+        const l=a.offsetLeft, r=l+a.offsetWidth;
+        if(l<strip.scrollLeft) strip.scrollLeft=l-20;
+        else if(r>strip.scrollLeft+strip.clientWidth) strip.scrollLeft=r-strip.clientWidth+20;
+      } else a.removeAttribute("aria-current");
+    });
+    document.title=(target===chapters[0]?"":titleOf(target.id)+" | ")+"ARC Payment Policy: A/P and P-Card Quick Guide";
+    if(fromNav){
+      window.scrollTo(0,0);
+      const h=target.querySelector("h1,h2");
+      if(h){h.setAttribute("tabindex","-1");try{h.focus({preventScroll:true});}catch(e){}}
+      // update the address for bookmarking where the browser allows it; ignored in previews and embeds
+      try{history.pushState({ch:target.id},"","#"+target.id);}catch(e){}
+    }
+  }
+  // Handle every in-page chapter link ourselves instead of letting the browser navigate
+  document.addEventListener("click",e=>{
+    const a=e.target.closest("a[href^='#']");
+    if(!a) return;
+    const id=a.getAttribute("href").slice(1);
+    if(!chapters.some(c=>c.id===id)) return;
+    e.preventDefault();
+    showChapter(id,true);
+  });
+  window.addEventListener("popstate",e=>{
+    let id=e.state&&e.state.ch;
+    if(!id){try{id=location.hash.slice(1);}catch(err){}}
+    showChapter(id,false); window.scrollTo(0,0);
+  });
+  let start="";
+  try{start=location.hash.slice(1);}catch(e){}
+  showChapter(start,false);
+  window.scrollTo(0,0);
 })();
 </script>
 </body>
