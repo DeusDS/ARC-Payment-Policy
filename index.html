@@ -230,6 +230,41 @@ details ul{margin:8px 0 4px;padding-left:22px;font-size:15.5px}
 .flag{border-left:4px solid var(--stop);background:var(--stop-soft);padding:14px 16px;border-radius:0 10px 10px 0;margin-top:14px}
 .flag ul{margin:6px 0 0;padding-left:20px;font-size:15.5px}
 footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
+/* Checklist chapter */
+.ck-controls{display:flex;flex-wrap:wrap;gap:18px 32px;align-items:flex-start;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:22px}
+.ck-controls .ck-l{display:block;font-weight:600;font-size:15px;margin-bottom:6px}
+.ck-controls .seg button{font-size:14px;padding:7px 10px}
+.ck-controls .seg button[aria-pressed="true"]:not([data-m]){border-color:var(--gold);background:var(--gold-soft)}
+.ck-opts{display:flex;flex-wrap:wrap;gap:8px}
+.ck-opts label{display:flex;align-items:center;gap:7px;font-size:14.5px;font-weight:600;border:2px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--paper);cursor:pointer}
+.ck-opts label:has(input:checked){border-color:var(--gold);background:var(--gold-soft)}
+.ck-opts input{accent-color:var(--gold);width:16px;height:16px;margin:0}
+.ck-progress{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:8px}
+.ck-progress b{font-family:var(--cond);font-size:22px}
+.ck-meter{flex:1 1 220px;height:12px;border-radius:99px;background:var(--panel);border:1px solid var(--line);overflow:hidden}
+.ck-meter i{display:block;height:100%;width:0;background:var(--pcard);transition:width .2s}
+.ck-actions{display:flex;gap:8px}
+.ck-actions button{font:inherit;font-size:14px;font-weight:600;border:2px solid var(--line);background:var(--paper);color:var(--ink);padding:6px 12px;border-radius:8px;cursor:pointer}
+.ck-actions button:hover{border-color:var(--ink)}
+.ck-group{margin-top:26px}
+.ck-group h3{display:flex;align-items:baseline;gap:10px}
+.ck-group h3 small{font-family:var(--body);font-size:14px;font-weight:600;color:var(--muted)}
+.ck-group[hidden],.ck-list li[hidden]{display:none}
+.ck-list{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.ck-item{display:grid;grid-template-columns:24px 1fr;gap:12px;align-items:start;padding:11px 14px;border:1px solid var(--line);border-radius:10px;background:var(--paper);cursor:pointer}
+.ck-item input{accent-color:var(--pcard);width:20px;height:20px;margin:2px 0 0;cursor:pointer}
+.ck-item:has(input:checked){background:var(--pcard-soft);border-color:var(--pcard)}
+.ck-item:has(input:checked) .ck-t{color:var(--muted)}
+.ck-item:has(input:focus-visible){outline:2px solid var(--gold);outline-offset:2px}
+.ck-t{font-size:16px;line-height:1.45}
+.ck-src{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.ck-key{border-left:4px solid var(--gold);padding-left:11px}
+@media print{
+  .nav,.pager,.ck-controls,.ck-actions,footer{display:none!important}
+  .chapters [data-chapter]:not(#checklist){display:none!important}
+  #checklist{display:block!important}
+  .ck-item{break-inside:avoid}
+}
 </style>
 </head>
 <body>
@@ -252,6 +287,7 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
       <a href="#disputes">Disputes</a>
       <a href="#roles">Roles</a>
       <a href="#outline">Outline</a>
+      <a href="#checklist">Checklist</a>
     </div>
   </div>
 </nav>
@@ -267,14 +303,19 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
 
   <div class="hero-grid">
     <div class="summary">
-      <h3>The policy in eight points</h3>
+      <h3>The policy in thirteen points</h3>
       <ul>
         <li><strong>Payments only.</strong> This policy governs disbursements. Buying authority comes from the Procurement and Contracting Policy, which applies first.</li>
-        <li><strong>Three ways to pay:</strong> P-Card, A/P without a PO, or A/P with a PO (check, wire or EFT).</li>
+        <li><strong>Three ways to pay:</strong> P-Card, A/P without a PO, or A/P with a PO (check, wire or EFT). All contract payments go through the PO process.</li>
         <li><strong>Every payment needs approval</strong> and a staff attestation that goods or services were received.</li>
         <li><strong>$5,000 is the key line.</strong> Above it: Chief Officer approval, a PO (unless a listed exception applies), and no single P-Card purchase without competitive procurement or a State Contract.</li>
         <li><strong>$25,000 is the top line.</strong> Above it: CEO approval. No P-Card limit may ever exceed it.</li>
         <li><strong>No W-9 or Vendor Information Form, no payment.</strong> E-Verify is required for vendors over $2,500.</li>
+        <li><strong>Pay only from a complete invoice.</strong> It needs a number, date, description, quantity and unit price, total and period of service, checked against the PO or contract. Statements and notices don’t count.</li>
+        <li><strong>Never split a purchase</strong> to stay under a limit or avoid procurement. A partial payment of a larger procurement needs Chief Officer approval, even at $5,000 or less.</li>
+        <li><strong>Every P-Card charge needs an itemized receipt.</strong> Missing receipts are repaid by the cardholder by the statement due date. The statement and support are due by the 15th of the following month.</li>
+        <li><strong>Never on a P-Card:</strong> alcohol, entertainment, gift cards, personal items, individual travel meals, tobacco or cash advances. One prohibited purchase ends card privileges permanently. Travel stays off the card except conference registration.</li>
+        <li><strong>Dispute errors before paying.</strong> Ask the vendor to correct the invoice; if they won’t, send the CFO a memo and hold payment.</li>
         <li><strong>ARC is sales-tax exempt.</strong> Never pay sales tax on an invoice.</li>
         <li><strong>Segregation of duties:</strong> no one person can request, review, authorize and execute the same payment.</li>
       </ul>
@@ -551,6 +592,51 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   </div>
 </section>
 
+<section id="checklist" data-chapter>
+  <h2>Payment checklist</h2>
+  <p class="lede">Every step that decides whether a payment goes through, in the order you need it. Pick the payment method and amount to see only the items that apply. Items with a gold edge carry the biggest consequences, such as a held payment, personal repayment or losing a P-Card.</p>
+
+  <div class="ck-controls">
+    <div>
+      <span class="ck-l" id="ck-m-l">Payment method</span>
+      <div class="seg" role="group" aria-labelledby="ck-m-l" id="ck-mSeg">
+        <button type="button" data-m="pcard" data-v="pcard" aria-pressed="false">P-Card</button>
+        <button type="button" data-m="nopo" data-v="nopo" aria-pressed="false">A/P without a PO</button>
+        <button type="button" data-m="po" data-v="po" aria-pressed="true">A/P with a PO</button>
+      </div>
+    </div>
+    <div>
+      <span class="ck-l" id="ck-a-l">Payment amount</span>
+      <div class="seg" role="group" aria-labelledby="ck-a-l" id="ck-aSeg">
+        <button type="button" data-v="le5" aria-pressed="true">$5,000 or less</button>
+        <button type="button" data-v="mid" aria-pressed="false">$5,001 to $25,000</button>
+        <button type="button" data-v="hi" aria-pressed="false">Over $25,000</button>
+      </div>
+    </div>
+    <div>
+      <span class="ck-l" id="ck-o-l">This payment involves</span>
+      <div class="ck-opts" role="group" aria-labelledby="ck-o-l">
+        <label><input type="checkbox" data-o="vendor">A new or updated vendor</label>
+        <label><input type="checkbox" data-o="partial">A partial or progress payment</label>
+        <label><input type="checkbox" data-o="dispute">An invoice error</label>
+        <label><input type="checkbox" data-o="appr">I review or approve payments</label>
+      </div>
+    </div>
+  </div>
+
+  <div class="ck-progress" aria-live="polite">
+    <b id="ck-count">0 of 0 done</b>
+    <div class="ck-meter" aria-hidden="true"><i id="ck-bar"></i></div>
+    <div class="ck-actions">
+      <button type="button" id="ck-print">Print</button>
+      <button type="button" id="ck-reset">Clear checks</button>
+    </div>
+  </div>
+
+  <div id="ck-groups"></div>
+  <p class="panel-note" style="margin-top:22px">Checks are saved in this browser only. Section numbers refer to the Payment Policy: A/P and P-Card (3/5/2026). Purchases must also follow the Procurement and Contracting Policy, and grant or funding rules where they are stricter.</p>
+</section>
+
 <footer>Summary of ARC Payment Policy: A/P and P-Card (3/5/2026). The policy document controls in any conflict with this guide.</footer>
 </main>
 
@@ -586,9 +672,9 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
     alerts.innerHTML = notes.map(n=>`<div class="alert ${n[0]}">${n[1]}</div>`).join("");
     document.getElementById("partial-wrap").style.display = method==="pcard" ? "none" : "flex";
   }
-  document.querySelectorAll(".seg button").forEach(b=>b.addEventListener("click",()=>{
+  document.querySelectorAll("#finder .seg button").forEach(b=>b.addEventListener("click",()=>{
     method=b.dataset.m;
-    document.querySelectorAll(".seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+    document.querySelectorAll("#finder .seg button").forEach(x=>x.setAttribute("aria-pressed",x===b));
     render();
   }));
   amt.addEventListener("input",render);
@@ -625,6 +711,113 @@ footer{padding:48px 0 40px;color:var(--muted);font-size:14px}
   function build(){out.textContent=(ini.value||"").toUpperCase().replace(/[^A-Z]/g,"")+(l4.value||"").replace(/\D/g,"")+mo.value+(yr.value||"").replace(/\D/g,"");}
   [ini,l4,mo,yr].forEach(el=>el.addEventListener("input",build));
   build();
+})();
+
+/* Checklist */
+(function(){
+const $ = id => document.getElementById(id);
+const CK = [
+ {g:"Before you buy", items:[
+  {id:"b-proc",k:1,t:"<strong>Follow the Procurement and Contracting Policy first.</strong> This policy only governs payment; it grants no authority to buy.",s:"1.1"},
+  {id:"b-allow",t:"<strong>Confirm the cost is allowable, funds are available and you have the right cost center.</strong> Ask the Budget Manager when in doubt.",s:"1.4.1; 2.1.2.2"},
+  {id:"b-split",k:1,t:"<strong>Don’t split a purchase</strong> to stay under a limit or avoid the procurement process.",s:"2.1.2.1.1"},
+  {id:"b-nopo",w:"nopo",t:"<strong>Use A/P without a PO only when it qualifies:</strong> micro-purchases, conference fees, rent, utilities, phone service, insurance premiums, recurring monthly operating costs or temporary staffing.",s:"2.1.2.2"},
+  {id:"b-dh",w:"nopo",t:"<strong>Get Department Head approval for every micro-purchase</strong> and its payment.",s:"2.1.2.2"},
+  {id:"b-annual",w:"nopo",t:"<strong>Attach the fully executed contract</strong> to annual software license, maintenance or single annual payments made without a PO.",s:"2.1.2.2"},
+  {id:"b-po",k:1,w:"po",t:"<strong>Have a PO in the financial system</strong> for purchases over $5,000 and for all contracts. Never pay a PO purchase outside the PO process.",s:"2.1.2.3; 2.1.2.1.5"},
+  {id:"b-big",k:1,w:"pcard gt5",t:"<strong>Over $5,000 on a P-Card only with competitive procurement or a State Contract</strong>, and above the micro-purchase threshold follow the procurement rules.",s:"2.1.2.1.1"},
+  {id:"b-limit",w:"pcard",t:"<strong>Stay within the $5,000 monthly card limit.</strong> Temporary increases need CFO or Deputy CFO approval and can never exceed $25,000.",s:"2.1.2.1.1"},
+  {id:"v-w9",k:1,w:"vendor",t:"<strong>Get a W-9 or Vendor Information Form to Finance before payment.</strong> Any exception needs the department’s written justification and CFO authorization.",s:"1.5; 5.3"},
+  {id:"v-ver",w:"vendor",t:"<strong>Make sure Finance can verify the vendor’s tax ID and legal status</strong>, plus E-Verify status for vendors paid over $2,500, and flag 1099-reportable vendors.",s:"1.5; 2.1.5"}
+ ]},
+ {g:"The invoice", items:[
+  {id:"i-full",k:1,w:"ap",t:"<strong>Get a complete invoice:</strong> invoice number, date, description, quantity and unit price, total and period of service. Statements and notices are not accepted in its place.",s:"2.1.1; 1.5"},
+  {id:"i-match",w:"ap",t:"<strong>Check the invoice against the PO, contract or other evidence</strong> for prices, quantities and terms.",s:"2.1.1"},
+  {id:"i-recv",k:1,t:"<strong>Confirm the goods arrived in good condition and correct quantity, or the service was performed</strong>, before attesting.",s:"1.5"},
+  {id:"i-sign",t:"<strong>Sign the attestation with a legible first and last name</strong>, such as “Approved to pay by …”. Email approvals need an electronic signature.",s:"3.1.1–3.1.3"},
+  {id:"i-prog",w:"partial",t:"<strong>Attach documentation of progress or work completed</strong> for the period being paid.",s:"1.5"},
+  {id:"i-tax",t:"<strong>Remove any sales tax.</strong> ARC is tax-exempt.",s:"1.5"},
+  {id:"i-upload",w:"ap",t:"<strong>Upload the invoice with its approvals and funding documentation</strong> into the financial system.",s:"1.5"},
+  {id:"i-instr",w:"ap",t:"<strong>Enter any special disbursement instructions</strong>, such as a check hold for pickup, or the check mails to the selected address.",s:"1.5; 5.2"},
+  {id:"i-terms",w:"ap",t:"<strong>Submit in time to meet the payment terms</strong> (Net 30, Net 60) and note any early-payment discounts or late penalties.",s:"2.1.1"},
+  {id:"i-chase",w:"ap",t:"<strong>Request missing invoices from the vendor</strong> when they aren’t submitted as the contract requires.",s:"1.4.1"}
+ ]},
+ {g:"Approvals", items:[
+  {id:"a-bm",t:"<strong>Route to the Budget Manager or fiscal designee</strong>, then the Department Head.",s:"3.1"},
+  {id:"a-co",k:1,w:"ap gt5",t:"<strong>Add Chief Officer approval</strong> for payments over $5,000.",s:"1.4.4; 3.1.2; 3.1.3"},
+  {id:"a-part",k:1,w:"ap partial le5",t:"<strong>Add Chief Officer approval for a partial payment of a larger procurement</strong>, even at $5,000 or less.",s:"3.1.2; 3.1.3"},
+  {id:"a-ceo",k:1,w:"ap gt25",t:"<strong>Add CEO or designee approval</strong> for payments over $25,000.",s:"1.4.5; 3.1.3"},
+  {id:"a-sod",t:"<strong>Keep duties separate:</strong> the person who requests a payment can’t also approve and execute it.",s:"2.1.4; 4.1"}
+ ]},
+ {g:"P-Card cardholders", items:[
+  {id:"p-own",w:"pcard",t:"<strong>Use only your own card.</strong> Never lend the card or share its number.",s:"2.1.2.1.3"},
+  {id:"p-rcpt",k:1,w:"pcard",t:"<strong>Keep an itemized receipt or confirmation for every transaction, including refunds.</strong> Without one, you repay ARC by the statement due date.",s:"2.1.2.1.4; 2.1.2.1.9"},
+  {id:"p-no",k:1,w:"pcard",t:"<strong>Never buy alcohol, entertainment, gift cards, personal items, individual travel meals or tobacco, and take no cash advances.</strong> One prohibited purchase permanently ends your card privileges.",s:"2.1.2.1.5; 2.1.2.1.6; 2.1.2.1.9"},
+  {id:"p-travel",w:"pcard",t:"<strong>Keep travel off the card except conference registration.</strong>",s:"2.1.2.1.5"},
+  {id:"p-subs",w:"pcard",t:"<strong>Put recurring subscriptions on the card only if they total $4,999 or less for the year.</strong>",s:"2.1.2.1.5"},
+  {id:"p-food",w:"pcard",t:"<strong>Support meeting food purchases</strong> with the vendor invoice, meeting agenda and sign-in sheet.",s:"2.1.2.1.5"},
+  {id:"p-enter",w:"pcard",t:"<strong>Enter each transaction’s purpose, cost center, account code and requester</strong> in the financial system.",s:"2.1.2.1.4"},
+  {id:"p-15",k:1,w:"pcard",t:"<strong>Upload the statement and receipts, in statement order, by the 15th of the following month</strong> (next business day on weekends and holidays). Late uploads risk suspension and late fees charged to your department.",s:"3.1.1.1; 2.1.2.1.5"},
+  {id:"p-name",w:"pcard",t:"<strong>Name the statement invoice correctly</strong> (initials, last four card digits, month, year, as in JD5555Dec2016) and make the amount equal the statement total.",s:"3.1.1.1"},
+  {id:"p-recon",w:"pcard",t:"<strong>Get the Department Head’s signature on the monthly statement reconciliation.</strong>",s:"3.1.1"},
+  {id:"p-lost",w:"pcard",t:"<strong>Report a lost or stolen card to Finance immediately</strong>, and return the card to Finance if you leave ARC.",s:"2.1.2.1.7; 2.1.2.1.8"},
+  {id:"p-fuel",w:"pcard",t:"<strong>Use fuel cards for fuel only</strong>, with an invoice or ticket for every charge.",s:"2.1.2.1.10"}
+ ]},
+ {g:"When something is wrong", items:[
+  {id:"d-tell",w:"dispute",t:"<strong>Tell the vendor about the error</strong> by email, phone or letter and ask for a corrected invoice.",s:"5.1"},
+  {id:"d-memo",k:1,w:"dispute",t:"<strong>If the vendor won’t correct it, send the CFO a memo and don’t process payment</strong> in the meantime.",s:"5.1"},
+  {id:"d-hold",t:"<strong>Respond quickly when Finance puts a payment on hold</strong> for missing support; unresolved cases go to the CFO and Department Head.",s:"3.2.2"},
+  {id:"d-stop",w:"ap",t:"<strong>Ask Finance for a stop payment</strong> if a check is lost in the mail.",s:"4.4"}
+ ]},
+ {g:"For reviewers and approvers", items:[
+  {id:"r-bm",w:"appr",t:"<strong>Budget Managers: confirm allowability under the grant, the cost center, available funds and documentation</strong>, and reject the request if anything is off.",s:"1.4.2"},
+  {id:"r-dh",w:"appr",t:"<strong>Department Heads: approve every department payment regardless of amount</strong> and send payments over $5,000 to the Chief Officer.",s:"1.4.3"},
+  {id:"r-acc",w:"appr",t:"<strong>Review the invoice and request for accuracy</strong> and reject any with fiscal or operational issues.",s:"1.4.3–1.4.5"},
+  {id:"r-own",k:1,w:"appr",t:"<strong>Never approve a payment you requested.</strong>",s:"2.1.4; 4.1"},
+  {id:"r-pc",w:"appr pcard",t:"<strong>Review and sign each cardholder’s monthly statement reconciliation.</strong>",s:"3.1.1"}
+ ]}
+];
+const KEY="arc-payment-checklist-v1";
+let st={m:"po",a:"le5",opts:{},done:{}};
+try{ const v=JSON.parse(localStorage.getItem(KEY)||"null"); if(v&&v.done) st=Object.assign(st,v); }catch(e){}
+const save=()=>{ try{ localStorage.setItem(KEY,JSON.stringify(st)); }catch(e){} };
+const has = t => {
+  if(t==="pcard"||t==="nopo"||t==="po") return st.m===t;
+  if(t==="ap") return st.m!=="pcard";
+  if(t==="gt5") return st.a!=="le5";
+  if(t==="gt25") return st.a==="hi";
+  if(t==="le5") return st.a==="le5";
+  return !!st.opts[t];
+};
+const applies = w => !w || w.split(" ").every(has);
+$("ck-groups").innerHTML = CK.map(g=>`<div class="ck-group"><h3>${g.g} <small data-c></small></h3><ul class="ck-list">${g.items.map(it=>`<li data-w="${it.w||""}"><label class="ck-item${it.k?" ck-key":""}"><input type="checkbox" data-id="${it.id}"><span class="ck-t">${it.t}<span class="ck-src">Policy: ${it.s}</span></span></label></li>`).join("")}</ul></div>`).join("");
+function render(){
+  let total=0, done=0;
+  document.querySelectorAll("#ck-groups .ck-group").forEach(gr=>{
+    let gt=0, gd=0;
+    gr.querySelectorAll("li").forEach(li=>{
+      const show=applies(li.dataset.w), cb=li.querySelector("input");
+      li.hidden=!show; cb.checked=!!st.done[cb.dataset.id];
+      if(show){ gt++; if(cb.checked) gd++; }
+    });
+    gr.hidden=!gt; gr.querySelector("[data-c]").textContent=`${gd} of ${gt}`;
+    total+=gt; done+=gd;
+  });
+  $("ck-count").textContent = total && done===total ? `All ${total} done` : `${done} of ${total} done`;
+  $("ck-bar").style.width = total ? (100*done/total)+"%" : "0";
+}
+function seg(id,key){
+  const btns=[...document.querySelectorAll(`#${id} button`)];
+  const sync=()=>btns.forEach(b=>b.setAttribute("aria-pressed", b.dataset.v===st[key]?"true":"false"));
+  btns.forEach(b=>b.addEventListener("click",()=>{ st[key]=b.dataset.v; sync(); save(); render(); }));
+  sync();
+}
+seg("ck-mSeg","m"); seg("ck-aSeg","a");
+document.querySelectorAll(".ck-opts input").forEach(cb=>{ cb.checked=!!st.opts[cb.dataset.o]; cb.addEventListener("change",()=>{ st.opts[cb.dataset.o]=cb.checked; save(); render(); }); });
+$("ck-groups").addEventListener("change",e=>{ const id=e.target.dataset.id; if(!id) return; if(e.target.checked) st.done[id]=1; else delete st.done[id]; save(); render(); });
+$("ck-reset").addEventListener("click",()=>{ st.done={}; save(); render(); });
+$("ck-print").addEventListener("click",()=>window.print());
+render();
 })();
 // Chapters: show one section at a time
 (function(){
